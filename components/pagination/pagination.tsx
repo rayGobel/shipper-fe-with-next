@@ -39,7 +39,8 @@ export const Pagination: FC<PaginationProps> = (props) => {
           data-testid="pagination--prev-page"
           disabled={disablePreviousPage}
         >
-          <span className="mr-4">&#12296;</span>Previous Page
+          <span className="mr-4">&#12296;</span>
+          <span className="hidden md:inline">Previous Page</span>
         </PaginationBtn>
 
         <PaginationBtn
@@ -47,7 +48,8 @@ export const Pagination: FC<PaginationProps> = (props) => {
           data-testid="pagination--next-page"
           disabled={disableNextPage}
         >
-          Next Page<span className="ml-4">&#12297;</span>
+          <span className="hidden md:inline">Next Page</span>
+          <span className="ml-4">&#12297;</span>
         </PaginationBtn>
       </div>
     </div>
