@@ -8,7 +8,6 @@ interface DriverCardProps {
 
 export const DriverCard: FC<DriverCardProps> = (props) => {
   const { driver } = props;
-  console.log({ d: props.driver })
 
   return (
     <div className="driver-card bg-white w-fit">

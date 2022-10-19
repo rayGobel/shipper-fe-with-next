@@ -47,7 +47,6 @@ const Home: NextPage = () => {
   const debouncedSearchDriver = debounce(searchDriverByName, 500);
 
   const handlePageChange = (newPage: number) => {
-    console.log({ newPage });
     const fetchData = async () => {
       const newIndex = (newPage - 1) * DRIVER_PER_PAGE;
       const { result, meta } = await getDrivers({ startIndex: newIndex, limit: DRIVER_PER_PAGE });
