@@ -33,6 +33,10 @@ export interface DriverServiceResponse {
   result: Driver[];
 }
 
+export const searchDriver = (driverName: string, pagination?: Pager): Promise<DriverServiceResponse> => {
+  return Promise.reject(new Error('Not implemented'));
+}
+
 export const getDrivers = (pagination?: Pager): Promise<DriverServiceResponse> => {
   const drivers: Driver[] = mockData.results;
   const { startIndex, limit } = pagination ? pagination : { startIndex: 0, limit: 100 };
@@ -51,6 +55,7 @@ export const getDrivers = (pagination?: Pager): Promise<DriverServiceResponse> =
 
 const driverServices = {
   getDrivers,
+  searchDriver,
 };
 
 export default driverServices;

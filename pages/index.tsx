@@ -1,16 +1,20 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import { useEffect, useState, ChangeEvent } from 'react';
+import { useEffect, useState, SyntheticEvent} from 'react';
 import debounce from 'lodash.debounce';
 
 import styles from '../styles/Home.module.css'
 import { SidebarMenu } from '../components/sidebar-menu';
 import { DriverCard } from '../components/driver-card';
 import { Pagination } from '../components/pagination';
-import { Driver, DriverServiceResponse, getDrivers } from '../services/drivers';
+import { Driver, DriverServiceResponse, getDrivers, searchDriver } from '../services/drivers';
 
 const DRIVER_PER_PAGE = 5;
+
+interface OnSearchEvent {
+  target: HTMLInputElement;
+}
 
 const Home: NextPage = () => {
   const [drivers, setDrivers] = useState<Driver[]>([]);
@@ -29,7 +33,7 @@ const Home: NextPage = () => {
     fetchData();
   }, []);
 
-  const searchDriver = (query: string) => {
+  const searchDriverByName = (query: string) => {
     const fetchData = async () => {
       const { result, meta } = await searchDriver(query, { startIndex: 0, limit: DRIVER_PER_PAGE });
       console.log({ result, meta });
@@ -39,7 +43,7 @@ const Home: NextPage = () => {
 
     fetchData();
   };
-  const debouncedSearchDriver = debounce(searchDriver, 500);
+  const debouncedSearchDriver = debounce(searchDriverByName, 500);
 
   const handlePageChange = (newPage: number) => {
     console.log({ newPage });
@@ -54,8 +58,9 @@ const Home: NextPage = () => {
     fetchData();
   };
 
-  const handleSearchQueryChange = (ev) => {
-    debouncedSearchDriver(ev.target.value);
+  const handleSearchQueryChange = (ev: OnSearchEvent) => {
+    const searchEl: HTMLInputElement = ev.target;
+    debouncedSearchDriver(searchEl.value);
   };
 
   return (

@@ -35,7 +35,7 @@ export const Pagination: FC<PaginationProps> = (props) => {
     <div data-testid="pagination" className="driver-pagination text-xl text-slate-800 flex place-content-center w-full pt-8">
       <div>
         <PaginationBtn
-          onClick={() => onChangePage ? onChangePage(currentPage - 1) : false}
+          onClick={() => onChangePage && currentPage ? onChangePage(currentPage - 1) : false}
           data-testid="pagination--prev-page"
           disabled={disablePreviousPage}
         >
@@ -43,7 +43,7 @@ export const Pagination: FC<PaginationProps> = (props) => {
         </PaginationBtn>
 
         <PaginationBtn
-          onClick={() => onChangePage ? onChangePage(currentPage + 1) : false}
+          onClick={() => onChangePage && currentPage ? onChangePage(currentPage + 1) : false}
           data-testid="pagination--next-page"
           disabled={disableNextPage}
         >
