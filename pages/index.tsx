@@ -3,6 +3,8 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import { SidebarMenu } from '../components/sidebar-menu';
+import { DriverCard } from '../components/driver-card';
+import { Pagination } from '../components/pagination';
 
 const Home: NextPage = () => {
   return (
@@ -28,7 +30,7 @@ const Home: NextPage = () => {
           <SidebarMenu />
         </div>
 
-        <div className="content bg-gray-100 w-full px-12 py-8">
+        <div className="content bg-gray-100 w-10/12 px-12 py-8">
           <div className="content-header flex flex-row justify-between content-center bg-white px-8 py-4">
             <div className="content-title">
               <p className="uppercase text-4xl text-red-500 font-semibold">Driver Management</p>
@@ -43,44 +45,20 @@ const Home: NextPage = () => {
             </div>
           </div>
 
-          <div className="driver-list pt-8">
-            <div className="driver-card bg-white w-1/4">
-              <div className="driver-card__header flex flex-row justify-between border-b-2 border-solid border-gray-300 px-8 py-4">
-                <p>Driver ID : <span className="text-red-500 font-semibold">ID-XYZ99561</span></p>
-                <p>...</p>
-              </div>
-
-              <div className="driver-card__body flex flex-col gap-2 px-8 py-4">
-                <div className="mb-8">
-                  <div className="relative h-32 w-32">
-                    <Image className="rounded-full" src="/blank-profile-picture.png" alt="driver-picture" layout="fill" />
-                  </div>
-                </div>
-
-                <div>
-                  <p className="text-gray-600">Nama Driver</p>
-                  <p className="font-semibold text-lg">First Name, Last Name</p>
-                </div>
-                <div>
-                  <p className="text-gray-600">Nomor Telepon</p>
-                  <p className="font-semibold text-lg">Phone Number</p>
-                </div>
-                <div>
-                  <p className="text-gray-600">Email</p>
-                  <p className="font-semibold text-lg">Email Address</p>
-                </div>
-                <div>
-                  <p className="text-gray-600">Tanggal Lahir</p>
-                  <p className="font-semibold text-lg">DD-MM-YYYY</p>
-                </div>
-              </div>
-            </div>
+          <div className="driver-list flex flex-row flex-nowrap gap-x-8 pt-8 pb-4 w-fit max-w-full overflow-x-scroll">
+            <DriverCard />
+            <DriverCard />
+            <DriverCard />
+            <DriverCard />
+            <DriverCard />
           </div>
+
+          <Pagination />
+
         </div>
       </main>
 
-      <footer>
-        <p>Footer</p>
+      <footer className="h-8">
       </footer>
     </div>
   )
