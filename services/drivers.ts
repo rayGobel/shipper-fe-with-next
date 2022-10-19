@@ -33,7 +33,27 @@ export interface DriverServiceResponse {
   result: Driver[];
 }
 
-export const searchDriver = (driverName: string, pagination?: Pager): Promise<DriverServiceResponse> => {
+function foundMatch (driver: Driver, matcher: RegExp): boolean {
+  const firstNameMatch = driver.name.first.toLowerCase().search(matcher) != -1;
+  const lastNameMatch = driver.name.last.toLowerCase().search(matcher) != -1;
+
+  return firstNameMatch || lastNameMatch;
+}
+
+export const searchDriver = (driverName: string, pagination: Pager): Promise<DriverServiceResponse> => {
+  const { startIndex, limit } = pagination;
+  const matcher = new RegExp(`^${driverName.toLowerCase()}`);
+  const result = mockData.results.filter((driver) => foundMatch(driver, matcher));
+
+  return Promise.resolve({
+    meta: {
+      startIndex: pagination.startIndex,
+      limit: pagination.limit,
+      total: result.length,
+    },
+    result: result.slice(startIndex, startIndex + limit)
+  });
+
   return Promise.reject(new Error('Not implemented'));
 }
 

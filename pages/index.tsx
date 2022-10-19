@@ -25,7 +25,7 @@ const Home: NextPage = () => {
     const fetchData = async () => {
       const { result, meta } = await getDrivers({ startIndex: 0, limit: DRIVER_PER_PAGE });
 
-      setTotalPage(meta.total / DRIVER_PER_PAGE);
+      setTotalPage(Math.ceil(meta.total / DRIVER_PER_PAGE));
       setCurrentPage(1);
       setDrivers(result);
     }
@@ -36,8 +36,9 @@ const Home: NextPage = () => {
   const searchDriverByName = (query: string) => {
     const fetchData = async () => {
       const { result, meta } = await searchDriver(query, { startIndex: 0, limit: DRIVER_PER_PAGE });
-      console.log({ result, meta });
 
+      setTotalPage(Math.ceil(meta.total / DRIVER_PER_PAGE));
+      setCurrentPage(1);
       setDrivers(result);
     };
 
