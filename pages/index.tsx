@@ -1,12 +1,27 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useEffect, useState } from 'react';
+
 import styles from '../styles/Home.module.css'
 import { SidebarMenu } from '../components/sidebar-menu';
 import { DriverCard } from '../components/driver-card';
 import { Pagination } from '../components/pagination';
+import { Driver, getDrivers } from '../services/drivers';
 
 const Home: NextPage = () => {
+  const [drivers, setDrivers] = useState<Driver[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await getDrivers();
+
+      setDrivers(result)
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <div className="grid grid-rows-[auto_1fr_auto] grid-cols-[100%] min-h-full">
       <Head>
@@ -46,11 +61,8 @@ const Home: NextPage = () => {
           </div>
 
           <div className="driver-list flex flex-row flex-nowrap gap-x-8 pt-8 pb-4 w-fit max-w-full overflow-x-scroll">
-            <DriverCard />
-            <DriverCard />
-            <DriverCard />
-            <DriverCard />
-            <DriverCard />
+
+            { drivers.slice(5).map(driver => (<DriverCard key={driver.email} driver={driver} />)) }
           </div>
 
           <Pagination />
