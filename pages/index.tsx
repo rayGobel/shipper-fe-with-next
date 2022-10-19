@@ -1,7 +1,8 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ChangeEvent } from 'react';
+import debounce from 'lodash.debounce';
 
 import styles from '../styles/Home.module.css'
 import { SidebarMenu } from '../components/sidebar-menu';
@@ -28,19 +29,33 @@ const Home: NextPage = () => {
     fetchData();
   }, []);
 
+  const searchDriver = (query: string) => {
+    const fetchData = async () => {
+      const { result, meta } = await searchDriver(query, { startIndex: 0, limit: DRIVER_PER_PAGE });
+      console.log({ result, meta });
+
+      setDrivers(result);
+    };
+
+    fetchData();
+  };
+  const debouncedSearchDriver = debounce(searchDriver, 500);
+
   const handlePageChange = (newPage: number) => {
     console.log({ newPage });
     const fetchData = async () => {
       const newIndex = (newPage - 1) * DRIVER_PER_PAGE;
       const { result, meta } = await getDrivers({ startIndex: newIndex, limit: DRIVER_PER_PAGE });
 
-      console.log({ result, meta });
-
       setCurrentPage(newPage);
       setDrivers(result);
     }
 
     fetchData();
+  };
+
+  const handleSearchQueryChange = (ev) => {
+    debouncedSearchDriver(ev.target.value);
   };
 
   return (
@@ -62,7 +77,7 @@ const Home: NextPage = () => {
       </header>
 
       <main className="flex flex-row">
-        <div className="sidebar w-2/12 px-8">
+        <div className="sidebar w-2/12 px-8 pt-4">
           <SidebarMenu />
         </div>
 
@@ -75,14 +90,13 @@ const Home: NextPage = () => {
 
             <div className="content-toolbar">
               <form className="search-form text-xl flex flex-row gap-x-4">
-                <input className="border border-solid border-gray-400 px-4 flex-1" type="text" placeholder="Cari Driver" />
-                <button className="bg-red-500 text-slate-400 px-8 py-4  flex-1">Tambah Driver</button>
+                <input onChange={handleSearchQueryChange} className="border border-solid border-gray-400 px-4 flex-1" type="text" placeholder="Cari Driver" />
+                <button className="bg-red-500 text-slate-100 px-8 py-4  flex-1">Tambah Driver</button>
               </form>
             </div>
           </div>
 
           <div className="driver-list flex flex-row flex-nowrap gap-x-8 pt-8 pb-4 w-fit max-w-full overflow-x-scroll">
-
             { drivers.map(driver => (<DriverCard key={driver.email} driver={driver} />)) }
           </div>
 

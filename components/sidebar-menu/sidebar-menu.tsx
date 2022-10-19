@@ -6,7 +6,7 @@ interface SidebarProp {
 const SidebarList = (prop: SidebarProp) => {
   const activeClass = prop.active ? 'border-l-4 border-red-500 text-red-600' : 'ml-1';
   const hoverStates = 'hover:bg-red-50 hover:cursor-pointer'
-  const classes = `text-lg w-full pl-4 py-1 ${activeClass} ${hoverStates}`;
+  const classes = `text-xl w-full pl-4 py-2 ${activeClass} ${hoverStates}`;
 
   return (
     <li className={classes}>
