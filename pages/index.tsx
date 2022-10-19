@@ -82,26 +82,26 @@ const Home: NextPage = () => {
       </header>
 
       <main className="flex flex-row">
-        <div className="sidebar w-2/12 px-8 pt-4">
+        <div className="sidebar w-2/12 px-8 pt-4 hidden md:block">
           <SidebarMenu />
         </div>
 
-        <div className="content bg-gray-100 w-10/12 px-12 py-8">
-          <div className="content-header flex flex-row justify-between content-center bg-white px-8 py-4">
+        <div className="content bg-gray-100 w-full px-6 py-2 md:w-10/12 md:px-12 md:py-8">
+          <div className="content-header flex flex-col p-4 gap-y-4 justify-between content-center bg-white md:flex-row md:px-8 md:py-4">
             <div className="content-title">
-              <p className="uppercase text-4xl text-red-500 font-semibold">Driver Management</p>
-              <p className="text-slate-600 text-lg">Data driver yang berkerja dengan anda</p>
+              <p className="uppercase text-xl md:text-4xl text-red-500 font-semibold">Driver Management</p>
+              <p className="text-slate-600 text-sm md:text-lg">Data driver yang berkerja dengan anda</p>
             </div>
 
-            <div className="content-toolbar">
-              <form className="search-form text-xl flex flex-row gap-x-4">
-                <input onChange={handleSearchQueryChange} className="border border-solid border-gray-400 px-4 flex-1" type="text" placeholder="Cari Driver" />
-                <button className="bg-red-500 text-slate-100 px-8 py-4  flex-1">Tambah Driver</button>
+            <div className="content-toolbar flex items-end">
+              <form className="search-form text-xl flex flex-col gap-y-3 md:gap-x-4 max-w-md md:max-h-max flex-wrap md:flex-row md:place-items-stretch">
+                <input onChange={handleSearchQueryChange} className="border flex-shrink border-solid border-gray-400 px-4 w-full h-12 md:w-1/2 md:flex-stretch" type="text" placeholder="Cari Driver" />
+                <button className="bg-red-500 text-slate-100 h-12 md:px-8 md:flex-stretch">Tambah Driver</button>
               </form>
             </div>
           </div>
 
-          <div className="driver-list flex flex-row flex-nowrap gap-x-8 pt-8 pb-4 w-fit max-w-full overflow-x-scroll">
+          <div className="driver-list flex flex-col gap-y-5 pt-6 md:flex-row md:flex-nowrap md:gap-x-8 md:pt-8 md:pb-4 w-full md:w-fit max-w-full overflow-x-scroll">
             { drivers.map(driver => (<DriverCard key={driver.email} driver={driver} />)) }
           </div>
 
