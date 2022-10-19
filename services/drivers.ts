@@ -19,10 +19,34 @@ export interface Driver {
   }
 }
 
-export const getDrivers = () => {
-  const drivers: Driver[] = mockData.results;
+interface Pager {
+  startIndex: number;
+  limit: number;
+}
 
-  return Promise.resolve(drivers);
+export interface DriverServiceResponse {
+  meta: {
+    startIndex: number;
+    limit: number;
+    total: number;
+  },
+  result: Driver[];
+}
+
+export const getDrivers = (pagination?: Pager): Promise<DriverServiceResponse> => {
+  const drivers: Driver[] = mockData.results;
+  const { startIndex, limit } = pagination ? pagination : { startIndex: 0, limit: 100 };
+
+  const result = {
+    meta: {
+      startIndex,
+      limit,
+      total: drivers.length
+    },
+    result: drivers.slice(startIndex, startIndex + limit)
+  };
+
+  return Promise.resolve(result);
 };
 
 const driverServices = {

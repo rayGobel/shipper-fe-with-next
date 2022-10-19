@@ -7,20 +7,39 @@ import styles from '../styles/Home.module.css'
 import { SidebarMenu } from '../components/sidebar-menu';
 import { DriverCard } from '../components/driver-card';
 import { Pagination } from '../components/pagination';
-import { Driver, getDrivers } from '../services/drivers';
+import { Driver, DriverServiceResponse, getDrivers } from '../services/drivers';
 
 const Home: NextPage = () => {
   const [drivers, setDrivers] = useState<Driver[]>([]);
+  const [totalPage, setTotalPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getDrivers();
+      const { result, meta } = await getDrivers({ startIndex: 0, limit: 5 });
 
-      setDrivers(result)
+      setTotalPage(meta.total / 5);
+      setCurrentPage(1);
+      setDrivers(result);
     }
 
     fetchData();
   }, []);
+
+  const handlePageChange = (newPage: number) => {
+    console.log({ newPage });
+    const fetchData = async () => {
+      const newIndex = (newPage - 1) * 5;
+      const { result, meta } = await getDrivers({ startIndex: newIndex, limit: 5 });
+
+      console.log({ result, meta });
+
+      setCurrentPage(newPage);
+      setDrivers(result);
+    }
+
+    fetchData();
+  };
 
   return (
     <div className="grid grid-rows-[auto_1fr_auto] grid-cols-[100%] min-h-full">
@@ -62,10 +81,14 @@ const Home: NextPage = () => {
 
           <div className="driver-list flex flex-row flex-nowrap gap-x-8 pt-8 pb-4 w-fit max-w-full overflow-x-scroll">
 
-            { drivers.slice(5).map(driver => (<DriverCard key={driver.email} driver={driver} />)) }
+            { drivers.map(driver => (<DriverCard key={driver.email} driver={driver} />)) }
           </div>
 
-          <Pagination />
+          <Pagination
+            totalPage={totalPage}
+            currentPage={currentPage}
+            onChangePage={(pageNum) => handlePageChange(pageNum)}
+          />
 
         </div>
       </main>
