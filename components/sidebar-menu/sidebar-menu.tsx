@@ -4,9 +4,9 @@ interface SidebarProp {
 }
 
 const SidebarList = (prop: SidebarProp) => {
-  const activeClass = ""
-
-  const classes = `text-lg w-full pl-4 ${prop.active ? 'box-border border-l-4 border-red-500' : ''}`;
+  const activeClass = prop.active ? 'border-l-4 border-red-500 text-red-600' : 'ml-1';
+  const hoverStates = 'hover:bg-red-50 hover:cursor-pointer'
+  const classes = `text-lg w-full pl-4 py-1 ${activeClass} ${hoverStates}`;
 
   return (
     <li className={classes}>

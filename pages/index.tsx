@@ -9,6 +9,8 @@ import { DriverCard } from '../components/driver-card';
 import { Pagination } from '../components/pagination';
 import { Driver, DriverServiceResponse, getDrivers } from '../services/drivers';
 
+const DRIVER_PER_PAGE = 5;
+
 const Home: NextPage = () => {
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const [totalPage, setTotalPage] = useState(0);
@@ -16,9 +18,9 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { result, meta } = await getDrivers({ startIndex: 0, limit: 5 });
+      const { result, meta } = await getDrivers({ startIndex: 0, limit: DRIVER_PER_PAGE });
 
-      setTotalPage(meta.total / 5);
+      setTotalPage(meta.total / DRIVER_PER_PAGE);
       setCurrentPage(1);
       setDrivers(result);
     }
@@ -29,8 +31,8 @@ const Home: NextPage = () => {
   const handlePageChange = (newPage: number) => {
     console.log({ newPage });
     const fetchData = async () => {
-      const newIndex = (newPage - 1) * 5;
-      const { result, meta } = await getDrivers({ startIndex: newIndex, limit: 5 });
+      const newIndex = (newPage - 1) * DRIVER_PER_PAGE;
+      const { result, meta } = await getDrivers({ startIndex: newIndex, limit: DRIVER_PER_PAGE });
 
       console.log({ result, meta });
 
